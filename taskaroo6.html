@@ -11,6 +11,26 @@
             color: white;
             text-align: center;
         }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #0A0F2D;
+            padding: 5px 30px;
+        }
+
+        .navbar .logo {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .map-button {
+            background: linear-gradient(135deg, #2A48F0, #6A5ACD);
+            padding: 10px 20px;
+            border-radius: 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
         .container {
             max-width: 800px;
             margin: 50px auto;
@@ -50,9 +70,15 @@
 </head>
 <body>
 
+   
+    <header class="navbar">
+        <a href="taskaroo5.html" class="map-button">Map Page</a>
+        <div class="logo">TASKAROO 🦘</div>
+    </header>
+
     <div class="container">
         <h1>Add a Task</h1>
-        <form id="taskForm">
+        <form id="taskForm"></form>
             <label>Task Description:</label>
             <input type="text" id="task_desc" required>
 
