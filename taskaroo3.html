@@ -119,10 +119,9 @@
             event.preventDefault();
             let email = document.getElementById("email").value;
             let password = document.getElementById("password").value;
-            fetch("http://localhost:8080/auth/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email: email, password: password })
+            
+            fetch(`https://8e46-2401-4900-234f-e517-ed18-c866-3a05-96d4.ngrok-free.app/login?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`, {
+                method: "POST"
             })
             .then(res => res.json())
             .then(data => {

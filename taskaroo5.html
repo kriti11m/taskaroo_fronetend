@@ -6,21 +6,17 @@
     <title>Taskaroo - Task Manager</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #0C1533;
             color: white;
             text-align: center;
         }
-
-        
         .header {
             display: flex;
             justify-content: space-between;
@@ -29,31 +25,24 @@
             background: #111;
             backdrop-filter: blur(10px);
         }
-
         .header .home-link {
             font-size: 16px;
             color: #ffffff;
             text-decoration: none;
         }
-
         .header .home-link:hover {
             color: #6b8afd;
         }
-
         .header .logo {
             font-size: 20px;
             font-weight: bold;
             color: #ffffff;
         }
-
-       
         .title {
             margin-top: 40px;
             font-size: 28px;
             font-weight: bold;
         }
-
-        
         .task-container {
             display: flex;
             justify-content: center;
@@ -62,10 +51,8 @@
             flex-wrap: wrap;
             padding: 80px;
         }
-
         .task-card {
             background: white;
-            backdrop-filter: blur(10px);
             padding: 20px;
             border-radius: 15px;
             width: 250px;
@@ -76,24 +63,20 @@
             flex-direction: column;
             justify-content: space-between;
         }
-
         .task-card h3 {
             font-size: 18px;
             color: #0044ff;
         }
-
         .task-card p {
             font-size: 14px;
             margin: 15px 0;
             color: rgb(64, 108, 226);
         }
-
         .task-card .button-container {
             display: flex;
             justify-content: center;
             margin-top: auto;
         }
-
         button {
             background-color: #6b8afd;
             color: white;
@@ -104,33 +87,21 @@
             cursor: pointer;
             transition: 0.3s;
         }
-
         button:hover {
             background-color: #5570d1;
         }
-
-        
-        footer {
-            margin-top: 50px;
-            padding: 20px;
+        .message {
+            margin-top: 15px;
             font-size: 14px;
-            color: #bbbbbb;
-            background: #111;
         }
     </style>
 </head>
 <body>
-
-    
     <div class="header">
         <a href="taskaroo1.html" class="home-link">Home</a>
         <div class="logo">TASKAROO 🦘</div>
     </div>
-
-   
     <h1 class="title">LET’S MAP OUT OUR DAY</h1>
-
-   
     <section class="task-container">
         <div class="task-card">
             <h3>ADD TASK</h3>
@@ -139,7 +110,6 @@
                 <button onclick="location.href='taskaroo6.html'">CHOOSE</button>
             </div>
         </div>
-
         <div class="task-card">
             <h3>Pending Task</h3>
             <p>Gear up!! Go through the tasks that are waiting for you. Go complete them.</p>
@@ -147,7 +117,6 @@
                 <button onclick="location.href='taskaroo7.html'">CHOOSE</button>
             </div>
         </div>
-
         <div class="task-card">
             <h3>Completed Task</h3>
             <p>Yayyyyaa, you understood the process. Go through the tasks that you completed successfully.</p>
@@ -156,10 +125,28 @@
             </div>
         </div>
     </section>
-
-    
-    <footer>
-        <p style="margin: 50px;">&copy; 2021 Taskaroo. All rights reserved.</p>
-
+    <script>
+        function submitTask() {
+            const task = {
+                title: document.getElementById('taskTitle').value,
+                description: document.getElementById('taskDescription').value
+            };
+            const gmail = document.getElementById('gmail').value;
+            fetch('https://8e46-2401-4900-234f-e517-ed18-c866-3a05-96d4.ngrok-free.app/addTask?gmail=' + encodeURIComponent(gmail), {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(task)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('responseMessage').textContent = data.message;
+            })
+            .catch(error => {
+                document.getElementById('responseMessage').textContent = 'Error adding task';
+            });
+        }
+    </script>
 </body>
 </html>

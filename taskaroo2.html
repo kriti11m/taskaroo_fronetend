@@ -80,53 +80,53 @@
       display: none;
     }
   </style>
- <script>
-  function validateEmail(email) {
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return emailPattern.test(email);
-  }
-
-  function validateAndSubmit() {
-    const username = document.getElementById("username").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value.trim();
-    const errorMsg = document.getElementById("error-message");
-    const signUpBtn = document.getElementById("signup-btn");
-
-    if (!username || !email || !password) {
-      errorMsg.style.display = "block";
-      errorMsg.textContent = "All fields are required!";
-      return false;
+  <script>
+    function validateEmail(email) {
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      return emailPattern.test(email);
     }
 
-    if (!validateEmail(email)) {
-      errorMsg.style.display = "block";
-      errorMsg.textContent = "Invalid email format!";
-      return false;
-    }
+    function validateAndSubmit() {
+      const username = document.getElementById("username").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const errorMsg = document.getElementById("error-message");
+      const signUpBtn = document.getElementById("signup-btn");
 
-    if (password.length < 6) {
-      errorMsg.style.display = "block";
-      errorMsg.textContent = "Password must be at least 6 characters long!";
-      return false;
-    }
+      if (!username || !email || !password) {
+        errorMsg.style.display = "block";
+        errorMsg.textContent = "All fields are required!";
+        return false;
+      }
 
-    errorMsg.style.display = "none";
-    signUpBtn.disabled = true;
-    signUpBtn.textContent = "Signing up...";
+      if (!validateEmail(email)) {
+        errorMsg.style.display = "block";
+        errorMsg.textContent = "Invalid email format!";
+        return false;
+      }
 
-    const formData = new URLSearchParams();
-    formData.append("name", username);
-    formData.append("email", email);
-    formData.append("password", password);
+      if (password.length < 6) {
+        errorMsg.style.display = "block";
+        errorMsg.textContent = "Password must be at least 6 characters long!";
+        return false;
+      }
 
-    fetch("https://a0ee-136-233-9-123.ngrok-free.app/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      body: formData.toString()
-    })
+      errorMsg.style.display = "none";
+      signUpBtn.disabled = true;
+      signUpBtn.textContent = "Signing up...";
+
+      const formData = new URLSearchParams();
+      formData.append("name", username);
+      formData.append("email", email);
+      formData.append("password", password);
+
+      fetch('https://8e46-2401-4900-234f-e517-ed18-c866-3a05-96d4.ngrok-free.app/signup', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: formData.toString()
+      })
       .then((res) => res.json().then(data => ({ status: res.status, body: data })))
       .then(({ status, body }) => {
         signUpBtn.disabled = false;
@@ -136,6 +136,10 @@
           throw new Error(body.message || `Error: ${status}`);
         }
 
+        // Store Gmail in localStorage
+        localStorage.setItem("userGmail", email);
+
+        // Redirect to task page
         window.location.href = "taskaroo5.html";
       })
       .catch((error) => {
@@ -145,24 +149,16 @@
         signUpBtn.disabled = false;
         signUpBtn.textContent = "SIGN-UP";
       });
-    return false;
-  }
-</script>
+      return false;
+    }
+  </script>
 </head>
 <body>
   <header class="navbar">
-    <div>
-      <a href="taskaroo1.html">Home</a>
-      <a href="taskaroo1.html" style="margin-left: 50px;">About Us</a>
-      <a href="#contact_details" style="margin-left: 50px;">Help</a>
-    </div>
     <h2>Taskaroo 🦘</h2>
   </header>
 
   <div class="container">
-    <div class="image-container">
-      <img src="taskaroo.png" alt="Taskaroo Illustration" />
-    </div>
     <div class="signup-form">
       <h2>CREATE A NEW ACCOUNT</h2>
       <p id="error-message" class="error-message"></p>
@@ -170,18 +166,7 @@
       <input type="email" id="email" placeholder="Email Address" />
       <input type="password" id="password" placeholder="Password" />
       <button id="signup-btn" onclick="return validateAndSubmit()">SIGN-UP</button>
-      <p style="margin-top: 100px;">
-        Already have an account?
-        <a href="taskaroo3.html" style="color: white;">LOGIN HERE</a>
-      </p>
     </div>
   </div>
-
-  <footer class="contact_details" id="contact_details">
-    <p><strong>📞 Phone:</strong> +123-456-7890</p>
-    <p><strong>📧 E-Mail:</strong> taskaroo@gmail.com</p>
-    <p><strong>🌍 Website:</strong> www.reallygreatsite.com</p>
-    <p><strong>🏠 Address:</strong> 123 Anywhere St., Any City</p>
-  </footer>
 </body>
 </html>
