@@ -16,6 +16,23 @@
             background-color: #0C1533;
             color: white;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            position: relative;
+        }
+        /* Centered background image with low opacity */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 800px; /* Adjust size as needed */
+            height: 800px;
+            background: url('taskaroo.png') no-repeat center center/contain;
+            opacity: 0.3;
+            transform: translate(-50%, -50%);
+            z-index: -1; /* Keeps it behind the content */
         }
         .header {
             display: flex;
@@ -39,9 +56,10 @@
             color: #ffffff;
         }
         .title {
-            margin-top: 40px;
-            font-size: 28px;
-            font-weight: bold;
+            margin-top: 90px;
+            font-size: 50px;
+            font-weight: 900;
+            background-color: #0C1533 ;
         }
         .task-container {
             display: flex;
@@ -49,7 +67,8 @@
             gap: 60px;
             margin-top: 50px;
             flex-wrap: wrap;
-            padding: 80px;
+            padding: 100px;
+            flex-grow: 1;
         }
         .task-card {
             background: white;
@@ -94,6 +113,20 @@
             margin-top: 15px;
             font-size: 14px;
         }
+        .footer {
+            background: #111;
+            color: white;
+            padding: 20px 50px;
+            text-align: center;
+            margin-top: auto;
+        }
+        .footer a {
+            color: #6b8afd;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            color: #5570d1;
+        }
     </style>
 </head>
 <body>
@@ -101,7 +134,9 @@
         <a href="taskaroo1.html" class="home-link">Home</a>
         <div class="logo">TASKAROO 🦘</div>
     </div>
-    <h1 class="title">LET’S MAP OUT OUR DAY</h1>
+
+    <h1 class="title" style="font-size: 36px; font-weight: 800;">LET’S MAP OUT OUR DAY</h1>
+
     <section class="task-container">
         <div class="task-card">
             <h3>ADD TASK</h3>
@@ -110,6 +145,7 @@
                 <button onclick="location.href='taskaroo6.html'">CHOOSE</button>
             </div>
         </div>
+
         <div class="task-card">
             <h3>Pending Task</h3>
             <p>Gear up!! Go through the tasks that are waiting for you. Go complete them.</p>
@@ -117,6 +153,7 @@
                 <button onclick="location.href='taskaroo7.html'">CHOOSE</button>
             </div>
         </div>
+
         <div class="task-card">
             <h3>Completed Task</h3>
             <p>Yayyyyaa, you understood the process. Go through the tasks that you completed successfully.</p>
@@ -125,28 +162,14 @@
             </div>
         </div>
     </section>
-    <script>
-        function submitTask() {
-            const task = {
-                title: document.getElementById('taskTitle').value,
-                description: document.getElementById('taskDescription').value
-            };
-            const gmail = document.getElementById('gmail').value;
-            fetch('https://8e46-2401-4900-234f-e517-ed18-c866-3a05-96d4.ngrok-free.app/addTask?gmail=' + encodeURIComponent(gmail), {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(task)
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('responseMessage').textContent = data.message;
-            })
-            .catch(error => {
-                document.getElementById('responseMessage').textContent = 'Error adding task';
-            });
-        }
-    </script>
+
+    <div class="footer">
+        <p>&copy; 2023 Taskaroo. All rights reserved.</p>
+        <p>Follow us on 
+            <a href="https://twitter.com" target="_blank">Twitter</a>, 
+            <a href="https://facebook.com" target="_blank">Facebook</a>, and 
+            <a href="https://instagram.com" target="_blank">Instagram</a>.
+        </p>
+    </div>
 </body>
 </html>

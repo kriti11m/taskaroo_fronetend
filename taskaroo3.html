@@ -1,144 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taskaroo - Login</title>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #0C1533;
-            color: white;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100vh;
-        }
-        .header {
-            width: 100%;
-            background: #111;
-            color: white;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 24px;
-            font-weight: bold;
-        }
-        .login-container {
-            background: linear-gradient(135deg, #0F0F3E, #2A48F0);
-            padding: 40px;
-            border-radius: 10px;
-            text-align: center;
-            width: 300px;
-            margin-top: 20px;
-        }
-        .input-group {
-            margin-bottom: 15px;
-            text-align: left;
-            position: relative;
-        }
-        .input-group input {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-        }
-        .toggle-password, .forgot-password {
-            position: absolute;
-            right: 10px;
-            top: 35px;
-            font-size: 12px;
-            cursor: pointer;
-            color: #a76249;
-        }
-        .login-button {
-            background-color: blue;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .google-login {
-            margin-top: 20px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taskaroo - Login</title>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0C1533;
+      color: white;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      position: relative; /* Required for pseudo-element positioning */
+    }
+    /* Centered background image with low opacity */
+    body::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 800px; /* Adjust size as needed */
+      height: 800px;
+      background: url('taskaroo.png') no-repeat center center/contain;
+      opacity: 0.3;
+      transform: translate(-50%, -50%);
+      z-index: -1; /* Keeps it behind the content */
+    }
+    .header {
+      width: 100%;
+      background: #111;
+      color: white;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .login-container {
+      background: linear-gradient(135deg, #0F0F3E, #2A48F0);
+      padding: 60px;
+      border-radius: 10px;
+      text-align: center;
+      width: 250px;
+      height: 280px;
+      margin-top: 80px;
+    }
+    .input-group {
+      margin-bottom: 15px;
+      text-align: left;
+      position: relative;
+    }
+    .input-group input {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 5px;
+      top: 70%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      cursor: pointer;
+      color: #a76249;
+    }
+    .forgot-password {
+      text-align: right;
+      display: block;
+      margin-top: 5px;
+      font-size: 12px;
+      color: #a76249;
+      text-decoration: none;
+    }
+    .login-button {
+      background-color: blue;
+      color: white;
+      margin-top: 20px;
+      padding:10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .google-login {
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-    <div class="header">
-        <a href="taskaroo1.html" style="color: white; text-decoration: none;margin-left: 35px;"><i class="fas fa-home"></i></a>
-        Taskaroo 🦘
+  <div class="header">
+    <a href="taskaroo1.html" style="color: white; text-decoration: none; margin-left: 35px;">
+      <i class="fas fa-home"></i>
+    </a>
+    Taskaroo 🦘
+  </div>
+  <div class="login-container">
+    <h1>Login</h1>
+    <p>Sign in to continue</p>
+    <form id="login-form">
+      <div class="input-group">
+        <label for="email">EMAIL</label>
+        <input type="email" id="email" placeholder="hello@reallygreatsite.com" required>
+      </div>
+      <div class="input-group">
+        <label for="password">PASSWORD</label>
+        <input type="password" id="password" placeholder="******" required>
+        <span class="toggle-password" onclick="togglePasswordVisibility()">👁</span>
+      </div>
+      <a href="taskaroo4.html" class="forgot-password">Forgot Password?</a>
+      <button class="login-button" type="submit">Login</button>
+    </form>
+    <p style="padding-top: 40px;">or signup with Google</p>
+    <div id="g_id_onload" data-client_id="236401010990-4dns3nj68mqgcjp12ect808gmuhtl4jr.apps.googleusercontent.com" data-callback="handleCredentialResponse"></div>
+    <div class="google-login">
+      <div class="g_id_signin" data-type="standard"></div>
     </div>
-    <div class="login-container">
-        <h1>Login</h1>
-        <p>Sign in to continue</p>
-        <form id="login-form">
-            <div class="input-group">
-                <label for="email">EMAIL</label>
-                <input type="email" id="email" placeholder="hello@reallygreatsite.com" required>
-            </div>
-            <div class="input-group">
-                <label for="password">PASSWORD</label>
-                <input type="password" id="password" placeholder="******" required>
-                <span class="toggle-password" onclick="togglePasswordVisibility()">👁</span>
-            </div>
-            <button class="login-button" type="submit">Login</button>
-        </form>
-        <p style="padding-top: 40px;">or login with an existing account</p>
-        <div id="g_id_onload" data-client_id="236401010990-4dns3nj68mqgcjp12ect808gmuhtl4jr.apps.googleusercontent.com" data-callback="handleCredentialResponse"></div>
-        <div class="google-login">
-            <div class="g_id_signin" data-type="standard"></div>
-        </div>
-    </div>
+    <p style="padding-top: 20px;">Don't have an account? <a href="taskaroo2.html" style="color: #a76249;">Sign up</a></p>
+  </div>
 
-    <script>
-        function handleCredentialResponse(response) {
-            const idToken = response.credential;
-            fetch("https://5c7c-2401-4900-234f-e517-bde7-850b-baf5-42d7.ngrok-free.app/auth/verifyToken", {
-                method: "POST",
-                headers: { "Content-Type": "application/json", "idToken": idToken }
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.email) {
-                    alert(`Welcome, ${data.name} (${data.email})`);
-                    window.location.href = "taskaroo5.html";
-                } else {
-                    alert("Login failed!");
-                }
-            })
-            .catch(error => console.error("Login Error:", error));
+  <script>
+    function handleCredentialResponse(response) {
+      const idToken = response.credential;
+      fetch("https://5c7c-2401-4900-234f-e517-bde7-850b-baf5-42d7.ngrok-free.app/auth/verifyToken", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "idToken": idToken }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.email) {
+          alert(`Welcome, ${data.name} (${data.email})`);
+          window.location.href = "taskaroo5.html";
+        } else {
+          alert("Login failed!");
         }
+      })
+      .catch(error => console.error("Login Error:", error));
+    }
 
-        document.getElementById("login-form").addEventListener("submit", function(event) {
-            event.preventDefault();
-            let email = document.getElementById("email").value;
-            let password = document.getElementById("password").value;
-            
-            fetch(`https://8e46-2401-4900-234f-e517-ed18-c866-3a05-96d4.ngrok-free.app/login?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`, {
-                method: "POST"
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    alert("Login successful!");
-                    window.location.href = "taskaroo5.html";
-                } else {
-                    alert("Invalid credentials.");
-                }
-            })
-            .catch(error => console.error("Login Error:", error));
-        });
-
-        function togglePasswordVisibility() {
-            let passwordField = document.getElementById("password");
-            passwordField.type = passwordField.type === "password" ? "text" : "password";
+    document.getElementById("login-form").addEventListener("submit", function(event) {
+      event.preventDefault();
+      let email = document.getElementById("email").value;
+      let password = document.getElementById("password").value;
+      
+      fetch(`https://8e46-2401-4900-234f-e517-ed18-c866-3a05-96d4.ngrok-free.app/login?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`, {
+        method: "POST"
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert("Login successful!");
+          window.location.href = "taskaroo5.html";
+        } else {
+          alert("Invalid credentials.");
         }
-    </script>
+      })
+      .catch(error => console.error("Login Error:", error));
+    });
+
+    function togglePasswordVisibility() {
+      let passwordField = document.getElementById("password");
+      passwordField.type = passwordField.type === "password" ? "text" : "password";
+    }
+  </script>
 </body>
 </html>

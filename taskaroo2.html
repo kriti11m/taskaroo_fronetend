@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Taskaroo - Sign Up</title>
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -15,16 +18,20 @@
     .navbar {
       display: flex;
       justify-content: space-between;
-      padding: 20px;
+      align-items: center;
+      padding: 15px;
       background-color: #111;
-    }
-    .navbar div {
-      display: flex;
-      gap: 20px;
     }
     .navbar a {
       color: white;
       text-decoration: none;
+      font-size: 24px;
+    }
+    .navbar a i {
+      font-size: 24px;
+    }
+    .left {
+      margin-left: 15px;
     }
     .container {
       display: flex;
@@ -52,7 +59,7 @@
     }
     .signup-form input {
       width: 100%;
-      padding: 12px;
+      padding: 20px;
       margin: 10px 0;
       border: none;
       border-radius: 5px;
@@ -67,100 +74,29 @@
       cursor: pointer;
       margin-top: 50px;
     }
-    .contact_details {
+    footer {
+      background-color: #111;
+      color: white;
       text-align: center;
       padding: 20px;
-      background-color: #111;
-      margin-top: 50px;
-    }
-    .error-message {
-      color: #ff4c4c;
-      font-size: 14px;
-      margin-bottom: 10px;
-      display: none;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
     }
   </style>
-  <script>
-    function validateEmail(email) {
-      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      return emailPattern.test(email);
-    }
-
-    function validateAndSubmit() {
-      const username = document.getElementById("username").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value.trim();
-      const errorMsg = document.getElementById("error-message");
-      const signUpBtn = document.getElementById("signup-btn");
-
-      if (!username || !email || !password) {
-        errorMsg.style.display = "block";
-        errorMsg.textContent = "All fields are required!";
-        return false;
-      }
-
-      if (!validateEmail(email)) {
-        errorMsg.style.display = "block";
-        errorMsg.textContent = "Invalid email format!";
-        return false;
-      }
-
-      if (password.length < 6) {
-        errorMsg.style.display = "block";
-        errorMsg.textContent = "Password must be at least 6 characters long!";
-        return false;
-      }
-
-      errorMsg.style.display = "none";
-      signUpBtn.disabled = true;
-      signUpBtn.textContent = "Signing up...";
-
-      const formData = new URLSearchParams();
-      formData.append("name", username);
-      formData.append("email", email);
-      formData.append("password", password);
-
-      fetch('https://8e46-2401-4900-234f-e517-ed18-c866-3a05-96d4.ngrok-free.app/signup', {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: formData.toString()
-      })
-      .then((res) => res.json().then(data => ({ status: res.status, body: data })))
-      .then(({ status, body }) => {
-        signUpBtn.disabled = false;
-        signUpBtn.textContent = "SIGN-UP";
-
-        if (status !== 200 || !body.success) {
-          throw new Error(body.message || `Error: ${status}`);
-        }
-
-        // Store Gmail in localStorage
-        localStorage.setItem("userGmail", email);
-
-        // Redirect to task page
-        window.location.href = "taskaroo5.html";
-      })
-      .catch((error) => {
-        console.error("Error during signup:", error);
-        errorMsg.style.display = "block";
-        errorMsg.textContent = error.message || "An error occurred. Please try again.";
-        signUpBtn.disabled = false;
-        signUpBtn.textContent = "SIGN-UP";
-      });
-      return false;
-    }
-  </script>
 </head>
 <body>
   <header class="navbar">
+    <a href="taskaroo1.html" class="left"><i class="fas fa-home"></i></a>
     <h2>Taskaroo 🦘</h2>
   </header>
 
   <div class="container">
+    <div class="image-container">
+      <img src="taskaroo.png" alt="Taskaroo Illustration">
+    </div>
     <div class="signup-form">
-      <h2>CREATE A NEW ACCOUNT</h2>
+      <h2 style="margin-bottom: 50px;">CREATE A NEW ACCOUNT</h2>
       <p id="error-message" class="error-message"></p>
       <input type="text" id="username" placeholder="Username" />
       <input type="email" id="email" placeholder="Email Address" />
@@ -168,5 +104,9 @@
       <button id="signup-btn" onclick="return validateAndSubmit()">SIGN-UP</button>
     </div>
   </div>
+
+  <footer>
+    &copy; 2023 Taskaroo. All rights reserved.
+  </footer>
 </body>
 </html>
