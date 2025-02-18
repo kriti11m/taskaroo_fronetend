@@ -90,7 +90,7 @@
             <button class="login-button" type="submit">Login</button>
         </form>
         <p style="padding-top: 40px;">or login with an existing account</p>
-        <div id="g_id_onload" data-client_id="YOUR_GOOGLE_CLIENT_ID" data-callback="handleCredentialResponse"></div>
+        <div id="g_id_onload" data-client_id="236401010990-4dns3nj68mqgcjp12ect808gmuhtl4jr.apps.googleusercontent.com" data-callback="handleCredentialResponse"></div>
         <div class="google-login">
             <div class="g_id_signin" data-type="standard"></div>
         </div>
@@ -99,7 +99,7 @@
     <script>
         function handleCredentialResponse(response) {
             const idToken = response.credential;
-            fetch("http://localhost:8080/auth/verifyToken", {
+            fetch("https://f119-2401-4900-234f-e517-bde7-850b-baf5-42d7.ngrok-free.app/auth/verifyToken", {
                 method: "POST",
                 headers: { "Content-Type": "application/json", "idToken": idToken }
             })
