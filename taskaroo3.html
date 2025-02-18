@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Taskaroo - Login</title>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -17,7 +17,7 @@
       flex-direction: column;
       align-items: center;
       height: 100vh;
-      position: relative; /* Required for pseudo-element positioning */
+      position: relative; /* Needed for the pseudo-element positioning */
     }
     /* Centered background image with low opacity */
     body::before {
@@ -30,7 +30,7 @@
       background: url('taskaroo.png') no-repeat center center/contain;
       opacity: 0.3;
       transform: translate(-50%, -50%);
-      z-index: -1; /* Keeps it behind the content */
+      z-index: -1; /* Ensures the image stays behind your content */
     }
     .header {
       width: 100%;
@@ -45,12 +45,12 @@
     }
     .login-container {
       background: linear-gradient(135deg, #0F0F3E, #2A48F0);
-      padding: 60px;
+      padding: 40px;
       border-radius: 10px;
       text-align: center;
-      width: 250px;
-      height: 280px;
-      margin-top: 80px;
+      width: 220px;
+      height: 300px;
+      margin-top: 200px;
     }
     .input-group {
       margin-bottom: 15px;
@@ -65,32 +65,42 @@
     }
     .toggle-password {
       position: absolute;
-      right: 5px;
+      right: 10px;
       top: 70%;
       transform: translateY(-50%);
-      font-size: 16px;
+      font-size: 12px;
       cursor: pointer;
       color: #a76249;
     }
+    /* Style for the forgot password link */
     .forgot-password {
-      text-align: right;
       display: block;
+      text-align: right;
       margin-top: 5px;
       font-size: 12px;
       color: #a76249;
       text-decoration: none;
     }
+    .forgot-password:hover {
+      color: #6b8afd;
+    }
     .login-button {
       background-color: blue;
       color: white;
-      margin-top: 20px;
-      padding:10px 20px;
+      padding: 10px 20px;
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      margin-top: 20px;
     }
     .google-login {
       margin-top: 20px;
+    }
+    /* Ensure the sign-up text stays on one line */
+    .signup-text {
+      padding-top: 20px;
+      text-align: center;
+      white-space: nowrap;
     }
   </style>
 </head>
@@ -114,23 +124,29 @@
         <input type="password" id="password" placeholder="******" required>
         <span class="toggle-password" onclick="togglePasswordVisibility()">👁</span>
       </div>
-      <a href="taskaroo4.html" class="forgot-password">Forgot Password?</a>
+      <!-- Forgot Password link with key icon -->
+      <a href="taskaroo4.html" class="forgot-password">
+        <i class="fas fa-key"></i> Forgot Password?
+      </a>
       <button class="login-button" type="submit">Login</button>
     </form>
-    <p style="padding-top: 40px;">or signup with Google</p>
-    <div id="g_id_onload" data-client_id="236401010990-4dns3nj68mqgcjp12ect808gmuhtl4jr.apps.googleusercontent.com" data-callback="handleCredentialResponse"></div>
+    <p style="padding-top: 40px;">or signup with google</p>
+    <div id="g_id_onload" data-client_id="484818255394-7fttjna8nsgk0bs3iflncoi95ruestja.apps.googleusercontent.com" data-callback="handleCredentialResponse"></div>
     <div class="google-login">
       <div class="g_id_signin" data-type="standard"></div>
     </div>
-    <p style="padding-top: 20px;">Don't have an account? <a href="taskaroo2.html" style="color: #a76249;">Sign up</a></p>
+    <p class="signup-text">Don't have an account? <a href="taskaroo2.html" style="color: #a76249;">Sign up</a></p>
   </div>
 
   <script>
     function handleCredentialResponse(response) {
       const idToken = response.credential;
-      fetch("https://5c7c-2401-4900-234f-e517-bde7-850b-baf5-42d7.ngrok-free.app/auth/verifyToken", {
+      fetch("https://dd9a-2409-40f4-40d9-a0dc-2083-44a9-ab64-8391.ngrok-free.app/auth/verifyToken", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "idToken": idToken }
+        headers: {
+          "Content-Type": "application/json", 
+          "idToken": idToken
+        }
       })
       .then(res => res.json())
       .then(data => {
@@ -149,7 +165,7 @@
       let email = document.getElementById("email").value;
       let password = document.getElementById("password").value;
       
-      fetch(`https://8e46-2401-4900-234f-e517-ed18-c866-3a05-96d4.ngrok-free.app/login?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`, {
+      fetch(`http://localhost:8081/login?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`, {
         method: "POST"
       })
       .then(res => res.json())
