@@ -118,25 +118,49 @@
   <div class="container">
     <h1>Pending Task</h1>
     <div class="task-list">
-      <div class="task">
-        <input type="checkbox" id="task1">
-        <label for="task1">Task 1</label>
-      </div>
-      <div class="task">
-        <input type="checkbox" id="task2">
-        <label for="task2">Task 2</label>
-      </div>
-      <div class="task">
-        <input type="checkbox" id="task3">
-        <label for="task3">Task 3</label>
-      </div>
-      <div class="task">
-        <input type="checkbox" id="task4">
-        <label for="task4">Task 4</label>
-      </div>
+      <!-- Tasks fetched from the backend will be inserted here -->
     </div>
     <button class="save-button">SAVE</button>
   </div>
 
+  <script>
+    // When the SAVE button is clicked, send a GET request with the email parameter.
+    document.querySelector('.save-button').addEventListener('click', function() {
+      // Retrieve email from localStorage; if not set, use a default email.
+      const email = localStorage.getItem("userEmail") || "default@example.com";
+      // Replace with your actual endpoint URL.
+      const endpoint = `https://0e29-2401-4900-234f-e517-f530-fec5-fd7f-e6ee.ngrok-free.app/pendingTask?email=${encodeURIComponent(email)}`;
+      
+      fetch(endpoint)
+        .then(response => response.json())
+        .then(data => {
+          console.log("Pending tasks response:", data);
+          // Update the task list with the tasks fetched from the backend.
+          const taskList = document.querySelector('.task-list');
+          taskList.innerHTML = ""; // Clear any existing tasks
+          // Assuming 'data' is an array of task objects.
+          data.forEach((taskObj, index) => {
+            const taskDiv = document.createElement('div');
+            taskDiv.className = 'task';
+            
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = 'task' + index;
+            
+            const label = document.createElement('label');
+            label.htmlFor = 'task' + index;
+            // Assuming each task object has a property 'task' with the task description.
+            label.textContent = taskObj.task;
+            
+            taskDiv.appendChild(checkbox);
+            taskDiv.appendChild(label);
+            taskList.appendChild(taskDiv);
+          });
+        })
+        .catch(error => {
+          console.error("Error fetching pending tasks:", error);
+        });
+    });
+  </script>
 </body>
 </html>

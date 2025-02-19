@@ -141,7 +141,7 @@
   <script>
     function handleCredentialResponse(response) {
       const idToken = response.credential;
-      fetch("https://dd9a-2409-40f4-40d9-a0dc-2083-44a9-ab64-8391.ngrok-free.app/auth/verifyToken", {
+      fetch("https://0e29-2401-4900-234f-e517-f530-fec5-fd7f-e6ee.ngrok-free.app/auth/verifyToken", {
         method: "POST",
         headers: {
           "Content-Type": "application/json", 
@@ -151,6 +151,8 @@
       .then(res => res.json())
       .then(data => {
         if (data.email) {
+          // Store the email in localStorage for later use
+          localStorage.setItem("userGmail", data.email);
           alert(`Welcome, ${data.name} (${data.email})`);
           window.location.href = "taskaroo5.html";
         } else {
@@ -171,6 +173,8 @@
       .then(res => res.json())
       .then(data => {
         if (data.success) {
+          // Store the email in localStorage for later use
+          localStorage.setItem("userGmail", email);
           alert("Login successful!");
           window.location.href = "taskaroo5.html";
         } else {

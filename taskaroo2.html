@@ -55,7 +55,7 @@
       text-align: center;
     }
     .signup-form h2 {
-      margin-bottom: 20px;
+      margin-bottom: 50px;
     }
     .signup-form input {
       width: 100%;
@@ -73,6 +73,10 @@
       font-weight: bold;
       cursor: pointer;
       margin-top: 50px;
+    }
+    .error-message {
+      color: red;
+      margin-bottom: 10px;
     }
     footer {
       background-color: #111;
@@ -96,17 +100,60 @@
       <img src="taskaroo.png" alt="Taskaroo Illustration">
     </div>
     <div class="signup-form">
-      <h2 style="margin-bottom: 50px;">CREATE A NEW ACCOUNT</h2>
+      <h2>CREATE A NEW ACCOUNT</h2>
       <p id="error-message" class="error-message"></p>
       <input type="text" id="username" placeholder="Username" />
       <input type="email" id="email" placeholder="Email Address" />
       <input type="password" id="password" placeholder="Password" />
       <button id="signup-btn" onclick="return validateAndSubmit()">SIGN-UP</button>
+      <p style="margin-top: 20px;">
+        Already have an account? 
+        <a href="taskaroo3.html" style="color: white; text-decoration: underline;">Login</a>
+      </p>
     </div>
   </div>
 
   <footer>
     &copy; 2023 Taskaroo. All rights reserved.
   </footer>
+
+  <script>
+    function validateAndSubmit() {
+      const username = document.getElementById("username").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const errorMessage = document.getElementById("error-message");
+      
+      errorMessage.textContent = "";
+      
+      if (!username || !email || !password) {
+        errorMessage.textContent = "All fields are required.";
+        return false;
+      }
+      
+      // Build URL with query parameters
+      const endpoint = `https://0e29-2401-4900-234f-e517-f530-fec5-fd7f-e6ee.ngrok-free.app/signup?name=${encodeURIComponent(username)}&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
+      
+      fetch(endpoint, {
+        method: "POST"
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          // Store the email in localStorage for later use
+          localStorage.setItem("userGmail", email);
+          alert("Signup successful!");
+          window.location.href = "taskaroo5.html";
+        } else {
+          errorMessage.textContent = data.message || "Signup failed. Please try again.";
+        }
+      })
+      .catch(error => {
+        errorMessage.textContent = "An error occurred. Please try again later.";
+      });
+      
+      return false;
+    }
+  </script>
 </body>
 </html>
