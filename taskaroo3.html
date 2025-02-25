@@ -141,7 +141,7 @@
   <script>
     function handleCredentialResponse(response) {
       const idToken = response.credential;
-      fetch("https://0e29-2401-4900-234f-e517-f530-fec5-fd7f-e6ee.ngrok-free.app/auth/verifyToken", {
+      fetch("http://localhost:8081/auth/verifyToken", {
         method: "POST",
         headers: {
           "Content-Type": "application/json", 

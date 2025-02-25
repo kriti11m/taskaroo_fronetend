@@ -128,7 +128,7 @@
           notes: document.getElementById("notes").value
         };
 
-        fetch(`https://0e29-2401-4900-234f-e517-f530-fec5-fd7f-e6ee.ngrok-free.app/addTask?gmail=${encodeURIComponent(storedGmail)}`, {
+        fetch(`http://localhost:8081/addTask?gmail=${encodeURIComponent(storedGmail)}`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(task)

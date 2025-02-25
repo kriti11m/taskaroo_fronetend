@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- ... keep existing head and styles ... -->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -109,7 +110,6 @@
   </style>
 </head>
 <body>
-
   <header class="navbar">
     <a href="taskaroo5.html" class="map-button">Map Page</a>
     <div class="logo">TASKAROO 🦘</div>
@@ -118,49 +118,103 @@
   <div class="container">
     <h1>Pending Task</h1>
     <div class="task-list">
-      <!-- Tasks fetched from the backend will be inserted here -->
+      <!-- Tasks will be dynamically inserted here -->
     </div>
-    <button class="save-button">SAVE</button>
+    <button class="save-button" onclick="markTasksComplete()">MARK AS COMPLETE</button>
   </div>
 
   <script>
-    // When the SAVE button is clicked, send a GET request with the email parameter.
-    document.querySelector('.save-button').addEventListener('click', function() {
-      // Retrieve email from localStorage; if not set, use a default email.
-      const email = localStorage.getItem("userEmail") || "default@example.com";
-      // Replace with your actual endpoint URL.
-      const endpoint = `https://0e29-2401-4900-234f-e517-f530-fec5-fd7f-e6ee.ngrok-free.app/pendingTask?email=${encodeURIComponent(email)}`;
-      
-      fetch(endpoint)
-        .then(response => response.json())
-        .then(data => {
-          console.log("Pending tasks response:", data);
-          // Update the task list with the tasks fetched from the backend.
-          const taskList = document.querySelector('.task-list');
-          taskList.innerHTML = ""; // Clear any existing tasks
-          // Assuming 'data' is an array of task objects.
-          data.forEach((taskObj, index) => {
-            const taskDiv = document.createElement('div');
-            taskDiv.className = 'task';
-            
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.id = 'task' + index;
-            
-            const label = document.createElement('label');
-            label.htmlFor = 'task' + index;
-            // Assuming each task object has a property 'task' with the task description.
-            label.textContent = taskObj.task;
-            
-            taskDiv.appendChild(checkbox);
-            taskDiv.appendChild(label);
-            taskList.appendChild(taskDiv);
-          });
-        })
-        .catch(error => {
-          console.error("Error fetching pending tasks:", error);
-        });
+    document.addEventListener('DOMContentLoaded', function() {
+        const userEmail = localStorage.getItem("userGmail");
+        if (!userEmail) {
+            alert("Please login first");
+            window.location.href = "taskaroo3.html";
+            return;
+        }
+
+        fetchPendingTasks(userEmail);
     });
-  </script>
+
+    function fetchPendingTasks(email) {
+        fetch(`http://localhost:8081/pendingTask?email=${encodeURIComponent(email)}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(response => {
+                console.log("Pending tasks response:", response);
+                // Check if response has tasks array
+                if (response.success && Array.isArray(response.tasks)) {
+                    displayTasks(response.tasks);
+                } else {
+                    throw new Error('Invalid response format');
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching tasks:", error);
+                document.querySelector('.task-list').innerHTML = 
+                    '<div class="no-tasks">Error loading tasks. Please try again.</div>';
+            });
+    }
+
+    function displayTasks(tasks) {
+    const taskList = document.querySelector('.task-list');
+    taskList.innerHTML = '';
+
+    if (tasks.length === 0) {
+        taskList.innerHTML = '<div class="no-tasks">No pending tasks found</div>';
+        return;
+    }
+
+    tasks.forEach((task, index) => {
+        const taskElement = document.createElement('div');
+        taskElement.className = 'task';
+        taskElement.innerHTML = `
+            <div class="checkbox-wrapper">
+                <input type="checkbox" id="task${index}" data-task-id="${task.task_id}">
+            </div>
+            <div class="task-content">
+                <div>${task.task_desc}</div>
+            </div>
+        `;
+        taskList.appendChild(taskElement);
+    });
+}
+
+function markTasksComplete() {
+    const checkedTasks = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
+        .map(checkbox => checkbox.dataset.taskId);
+
+    if (checkedTasks.length === 0) {
+        alert("Please select tasks to mark as complete");
+        return;
+    }
+
+    const userEmail = localStorage.getItem("userGmail");
+    
+    // Send PUT request for each selected task using the correct endpoint
+    Promise.all(checkedTasks.map(taskId => 
+        fetch(`http://localhost:8081/done?id=${taskId}`, {
+            method: 'PUT'
+        }).then(response => response.json())
+    ))
+    .then(results => {
+        // Check if all tasks were successfully marked as complete
+        if (results.every(result => result.success)) {
+            alert("Tasks marked as complete!");
+            fetchPendingTasks(userEmail); // Refresh the task list
+        } else {
+            alert("Error marking some tasks as complete. Please try again.");
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("An error occurred. Please try again.");
+    });
+}
+</script>
 </body>
 </html>
+

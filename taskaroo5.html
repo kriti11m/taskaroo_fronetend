@@ -173,37 +173,19 @@
         </p>
     </div>
 
-    <script>
-        function storePendingInfoAndNavigate() {
-            // Quick debug alert to confirm the button was clicked
-            alert("Pending button clicked, attempting to fetch data...");
-
-            // Retrieve the stored user email from localStorage
-            const email = localStorage.getItem("userGmail");
-            if (!email) {
-                alert("No user email found. Please log in.");
-                window.location.href = "taskaroo3.html";
-                return;
-            }
-            
-            // Send a GET request to the backend with the user's email as a query parameter
-            fetch(`https://0e29-2401-4900-234f-e517-f530-fec5-fd7f-e6ee.ngrok-free.app/pendingTask?email=${encodeURIComponent(email)}`, {
-                method: "GET"
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Navigate to the pending tasks page if the request is successful
-                    window.location.href = "taskaroo7.html";
-                } else {
-                    alert("Error fetching pending tasks: " + data.message);
-                }
-            })
-            .catch(error => {
-                console.error("Error fetching pending tasks:", error);
-                alert("Error fetching pending tasks. Please check the console for details.");
-            });
+    <!-- Replace the existing storePendingInfoAndNavigate function -->
+<script>
+    function storePendingInfoAndNavigate() {
+        const email = localStorage.getItem("userGmail");
+        if (!email) {
+            alert("Please login first");
+            window.location.href = "taskaroo3.html";
+            return;
         }
-    </script>
+        
+        // Navigate directly to pending tasks page
+        window.location.href = "taskaroo7.html";
+    }
+</script>
 </body>
 </html>
